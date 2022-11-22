@@ -23,15 +23,15 @@ module.exports = (sequelize) => {
       allowNull:true
     },
     rating:{
-      type:DataTypes.INTEGER,
-      allowNull:true
+      type:DataTypes.FLOAT,
+      allowNull:false
     },
     platforms:{
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
     },
     background_image: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1234),
       allowNull:true
     },
     createdInDb: {

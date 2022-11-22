@@ -2,7 +2,7 @@ require('dotenv').config();
 const { API_KEY } = process.env;
 const axios = require('axios');
 const { Videogame, Genre } = require('../db.js');
-const { Op } = require("sequelize");
+
 
 const allVideogames= async () => {
     let games=[];
@@ -13,6 +13,7 @@ const allVideogames= async () => {
             games.push({
                 id:e.id,
                 name:e.name,
+                description: e.description,
                 background_image:e.background_image,
                 rating:e.rating,
                 released:e.released,
@@ -23,14 +24,8 @@ const allVideogames= async () => {
     } return games
 }
 
-const dbInfo= async (name) => {
-
+const dbInfo= async () => {
         const resultsDb= await Videogame.findAll({
-            where: {
-                name: {
-                    [Op.iLike]: `%${name}%`,
-                },
-            },
             include:{
                 model:Genre,
                 attributes:['id','name'],
@@ -39,11 +34,11 @@ const dbInfo= async (name) => {
                 },
             }
         })
-
-        const db=resultsDb.map((video) => {
+        const db=resultsDb.map((e) => {
             return {
                 id:e.id,
                 name:e.name,
+                description: e.description,
                 background_image:e.background_image,
                 rating:e.rating,
                 released:e.released,
@@ -60,5 +55,7 @@ const allVideoInfo= async () => {
     const info= dbInfos.concat(videoInfo);
     return info
 }
+
+
 
 module.exports = {allVideoInfo, dbInfo, allVideogames}
