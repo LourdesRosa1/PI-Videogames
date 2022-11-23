@@ -5,7 +5,6 @@ const {dbInfo}=require('./getVideogames')
 
 const getDetail = async (id) => {
     let videogameInfo = []
-    
     const apiInfo = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
     const idGame = await apiInfo.data
     const gameDetail = videogameInfo.push({
@@ -17,7 +16,7 @@ const getDetail = async (id) => {
             genres: idGame.genres?.map((gen) => gen.name),
             description: idGame.description.replace(/<[^>]*>?/g, ''),
     });
-
+    return videogameInfo
 };
 
 const getDbDetail = async (id) => {

@@ -1,8 +1,8 @@
 const {allVideoInfo} =require('../controller/getVideogames.js')
 const {dbApiDetail}=require('../controller/getId')
-const {postVideogame}=require('../controller/getPost.js')
 const { Router } = require('express');
 const { Videogame, Genre } = require('../db.js');
+const db = require('../db.js');
 
 const router = Router();
 
@@ -10,6 +10,7 @@ router.get('/videogames', async (req,res) => {
     try{
         const {name}=req.query;
         const resultsDb= await allVideoInfo();
+        //console.log('resultsDb: ',resultsDb);
         if(name){
         const videoByName= resultsDb?.filter((e) => e.name.toLowerCase().startsWith(name.toLowerCase()));
         videoByName.length > 0 ? res.status(200).json(videoByName.slice(0,15)) : res.send('error')
@@ -32,13 +33,57 @@ router.get('/videogame/:id', async (req,res) => {
 })
 
 router.post('/videogames', async (req,res) => {
+    const{
+        name,
+        description,
+        background_image,
+        rating,
+        released,
+        platforms,
+        genres
+    }=req.body;
+
+let objInfo={ name,description,background_image: background_image ? background_image : 'https://img.freepik.com/vector-gratis/consola-juegos-letras-letrero-neon-fondo-ladrillo_1262-11854.jpg?w=740&t=st=1669172056~exp=1669172656~hmac=e28863c9e27bdca4a8f20846ad1f6797d2186e727160fc3c0d2e98242bbe8dc8',rating,released,platforms}
     try{
-        const{name,description,background_image,rating,released,platforms,genres}=req.body;
-        const videoo=await postVideogame(name,description,background_image,rating,released,platforms,genres);
-        res.status(201).send(videoo)
+        
+            const videogameCreate= await Videogame.create(objInfo);
+       let videogameGenre= await Genre.findAll({
+            where: {name: genres}
+        });
+        await videogameCreate.addGenre(videogameGenre)
+        return res.status(201).send('creado')
     } catch (error) {
         res.status(400).json(error.message);
     }
 })
+
+router.put('/videogame/:id',async (req, res) => {
+    try{
+        const {id}=req.params;
+        const{name,description}=req.body
+        await db.Videogame.update(
+            {name, description},
+            {where: {
+                id
+            }})
+            res.status(200).send('usuario actualizado')
+        } catch {
+            res.status(400).send('no se pudo');
+        }
+})
+
+router.delete('/videogame/:id',async (req, res) => {
+    try{
+        const {id}=req.params;
+        await db.Videogame.destroy(
+            {where: {
+                id
+            }})
+            res.status(200).send('usuario borrado')
+        } catch {
+            res.status(400).send('no se pudo');
+        }
+})
+
 
 module.exports = router;
