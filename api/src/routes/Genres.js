@@ -6,7 +6,7 @@ const router = Router();
 router.get('/genres',async (req, res) => {
     try{
         const genre= await genresToDb()
-        return res.status(200).send(genre);
+        return res.send(genre);
     }catch (error) {
         res.status(400).json(error.message)
     };
