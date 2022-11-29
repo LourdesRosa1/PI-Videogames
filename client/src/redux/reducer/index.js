@@ -1,12 +1,15 @@
-import { FILTER_BY_CREATE, GET_VIDEOGAMES, GET_VIDEOGAMES_BY_NAME, ORDER_BY_NAME, ORDER_BY_RATING } from "../actions";
+import { FILTER_BY_CREATE, FILTER_BY_GENRES, GET_GENRES, GET_VIDEOGAMES, GET_VIDEOGAMES_BY_NAME, ORDER_BY_NAME, ORDER_BY_RATING, POST_VIDEOGAME, VIDEOGAME_BY_ID } from "../actions";
 
 const initialState={
     allVideogames:[],
-    videogames:[]
+    videogames:[],
+    genres:[],
+    datails:[]
 }
 
 function rootReducer (state=initialState, action) {
     switch(action.type) {
+
         case GET_VIDEOGAMES:
             return{
                 ...state,
@@ -69,6 +72,32 @@ function rootReducer (state=initialState, action) {
                             ...state,
                             videogames: filtervideo
                         }
+
+                        case GET_GENRES:
+                            return{
+                                ...state,
+                                genres:action.payload,
+                            }
+
+                        case FILTER_BY_GENRES:
+                            const fullVideogames = state.allVideogames;
+                            const genreFilter = action.payload === "genre" ? fullVideogames : fullVideogames.filter(e => e.genres.includes(action.payload));
+                            console.log(genreFilter);
+                            return{
+                                ...state,
+                                videogames: genreFilter
+                            };
+
+                            case VIDEOGAME_BY_ID:
+                                return {
+                                    ...state,
+                                    datails:action.payload
+                                }
+
+                                case POST_VIDEOGAME:
+                                    return {
+                                        ...state,
+                                    }
 
             default:
                 return state;

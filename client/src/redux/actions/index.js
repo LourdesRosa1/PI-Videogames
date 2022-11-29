@@ -6,6 +6,8 @@ export const ORDER_BY_NAME= 'ORDER_BY_NAME';
 export const ORDER_BY_RATING= 'ORDER_BY_RATING';
 export const FILTER_BY_GENRES='FILTER_BY_GENRES';
 export const FILTER_BY_CREATE= 'FILTER_BY_CREATE';
+export const VIDEOGAME_BY_ID='VIDEOGAME_BY_ID';
+export const POST_VIDEOGAME='POST_VIDEOGAME';
 
 
 // funcion con la que traigo los videogames
@@ -43,11 +45,40 @@ export function getGenres () {
     return async function (dispatch) {
         try{
             const genres= await axios.get('http://localhost:3001/genres');
-            return ({
+            return dispatch({
                 type: GET_GENRES,
                 payload:genres.data
             })
         }  catch (error) {
+            console.log(error.message)
+        }
+    }
+}
+
+//detalle de videogames por id
+export function videogameById (id) {
+    return async function(dispatch) {
+        try{
+            const json= await axios.get(`http://localhost:3001/videogame/${id}`);
+            return dispatch({
+                type:VIDEOGAME_BY_ID,
+                payload:json.data
+            })
+        }catch (error) {
+            console.log(error.message)
+        }
+    }
+}
+
+//funcion para crear videogame
+export function postVideogame (payload) {
+    return async function(dispatch) {
+        try{
+            const json= await axios.post('http://localhost:3001/videogames', payload);
+            return dispatch({
+                type:POST_VIDEOGAME
+            })
+        }catch (error) {
             console.log(error.message)
         }
     }
