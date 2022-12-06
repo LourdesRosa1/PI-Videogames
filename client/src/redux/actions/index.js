@@ -10,6 +10,14 @@ export const VIDEOGAME_BY_ID='VIDEOGAME_BY_ID';
 export const POST_VIDEOGAME='POST_VIDEOGAME';
 
 
+export const LIMPIAR_DETALLE='LIMPIAR_DETALLE'
+//LIMPIAR DETALLE 
+export function limpiarDetalle () {
+    return {
+        type:LIMPIAR_DETALLE
+    }
+    }
+
 // funcion con la que traigo los videogames
 export function getVideogames () {
     return async function(dispatch) {

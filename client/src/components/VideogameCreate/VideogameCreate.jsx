@@ -2,30 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getGenres, postVideogame , getVideogames} from "../../redux/actions";
+import { getGenres, postVideogame , getVideogames, deleteI} from "../../redux/actions";
+import style from './VideogameCraete.module.css'
 
-function validate(input) {
-    let errors={};
-    if(input.name === ''){
-        errors.name = 'Es necesario un nombre'
-    }
-    if(input.description === ''){
-        errors.description = 'Es necesario una descripción'
-    }
-    if(input.released === ''){
-        errors.released = 'Es necesario una fecha de lanzamiento'
-    }
-    if(input.rating < 0 || input.rating > 5 ){
-        errors.rating = 'Debe ser mayor a 0 y menor o igual a 5'
-    }
-    if (!input.platforms){
-        errors.platforms = 'Plataforma es requerida'
-    }
-    if (!input.genres){
-        errors.genres = 'Genero es requerido'
-    }
-    return errors;
-}
+
 
 export default function VideogameCreate () {
     const dispatch=useDispatch();
@@ -33,6 +13,36 @@ export default function VideogameCreate () {
     const games = useSelector(state => state.videogames);
     const history=useHistory();
     const [errors, sertErrors]=useState({});
+    
+    function validate(input) {
+        let errors={};
+        if(input.name === ''){
+            errors.name = 'Es necesario un nombre'
+        }
+        else if(games.find(
+            (el) => el.name.toLowerCase() === input.name.toLowerCase()
+        )) {
+            errors.name= 'El nombre ya existe. Utilice un nombre diferente'
+        }
+        if(input.description === ''){
+            errors.description = 'Es necesario una descripción'
+        }
+        if(input.released === ''){
+            errors.released = 'Es necesario una fecha de lanzamiento'
+        }
+        if(!input.rating){
+            errors.rating = 'Es necesario colocar el Rating'
+        } else if(input.rating < 0 || input.rating > 5 ) {
+            errors.rating = 'Debe ser mayor a 0 y menor o igual a 5'
+        }
+        if (!input.platforms || input.platforms.length === 0){
+            errors.platforms = 'Plataforma es requerida'
+        }
+        if (!input.genres|| input.genres.length === 0) {
+            errors.genres = 'Genero es requerido'
+        }
+        return errors;
+    }
     
     const [input, setInput]= useState({
                 name:'',
@@ -78,6 +88,13 @@ export default function VideogameCreate () {
             }))
         }
 
+        function handleDeleteGenre(e){
+            setInput({
+                ...input,
+                genres: input.genres.filter(gen => gen !== e)
+            });
+        };
+
         const handlePlataforms= (e) => {
             setInput({
                 ...input,
@@ -89,6 +106,12 @@ export default function VideogameCreate () {
                 platforms: [...input.platforms, e.target.value],
             }))
         }
+        function handleDeletePlatform(e){
+            setInput({
+                ...input,
+                platforms: input.platforms.filter(plat => plat !== e)
+            });
+        };
 
         const setArray = [];
         games.map(e => e.platforms?.map(e => setArray.push(e)));
@@ -96,83 +119,113 @@ export default function VideogameCreate () {
 
         const handleOnSubmit= (e) => {
             e.preventDefault();
-            dispatch(postVideogame(input));
-            setInput(({
-                name:'',
-                description:'',
-                background_image:'',
-                rating:0,
-                released:'',
-                platforms:[],
-                genres:[]
-            }));
-            history.push('/home')
+            // if(input.name === games.filter(name => name.name === input.name)){
+            //     alert('El nombre ya existe')
+            // }
+            dispatch(postVideogame(input))
+                setInput(({
+                    name:'',
+                    description:'',
+                    background_image:'',
+                    rating:0,
+                    released:'',
+                    platforms:[],
+                    genres:[]
+                }));
+                alert('Videogamr Creado')
+                history.push('/home')
         }
 
         return(
-            <div>
-                <Link to='/home'><button>Volver</button></Link>
-                <h1>Crear Videogame: </h1>
-
-                <div>
-                    <form onSubmit={(e) => handleOnSubmit(e)}>
+            <div className={style.fondo}>
+                <br/>
+                <h1 className={style.titulo}>Crear Videogame: </h1>
+                <div className={style.create}>
+                    <form className={style.content} onSubmit={(e) => handleOnSubmit(e)}>
                     
                     <div>
-                        <label>Nombre: </label>
-                        <input type='text' value={input.name} name='name' placeholder='Nombre...' onChange={(e) => handleOnChange(e)}/>
-                        {errors.name && (<p>{errors.name}</p>)}
+                        <label >Nombre: </label>
+                        <input type='text' value={input.name} name='name' placeholder='Nombre...' onChange={(e) => handleOnChange(e)} required/>
+                        {errors.name && (<p className={style.error}>{errors.name}</p>)}
                     </div>
+                    <br/>
 
                     <div>
                         <label>Descripción: </label>
-                        <input type='text' value={input.description} name='description' placeholder='Description...' onChange={(e) => handleOnChange(e)}/>
-                        {errors.description && (<p>{errors.description}</p>)}
+                        <input type='text' value={input.description} name='description' placeholder='Description...' onChange={(e) => handleOnChange(e)} required/>
+                        {errors.description && (<p className={style.error}>{errors.description}</p>)}
                     </div>
+                    <br/>
 
                     <div>
                         <label>Rating: </label>
-                        <input type='number' value={input.rating} name='rating' placeholder='Rating...' onChange={(e) => handleOnChange(e)}/>
-                        {errors.rating && (<p>{errors.rating}</p>)}
+                        <input type='number' value={input.rating} name='rating' placeholder='Rating...' onChange={(e) => handleOnChange(e)} required/>
+                        {errors.rating && (<p className={style.error}>{errors.rating}</p>)}
                     </div>
+                    <br/>
 
                     <div>
                         <label>Fecha de lanzamiento: </label>
-                        <input type='text' value={input.released} name='released' placeholder='Released...' onChange={(e) => handleOnChange(e)}/>
-                        {errors.released && (<p>{errors.released}</p>)}
+                        <input type='text' value={input.released} name='released' placeholder='Released...' required onChange={(e) => handleOnChange(e)} />
+                        {errors.released && (<p className={style.error}>{errors.released}</p>)}
                     </div>
+                    <br/>
 
                     <div>
                         <label>Imagen: </label>
-                        <input type='url' value={input.background_image} name='background_image' placeholder='Image...' onChange={(e) => handleOnChange(e)}/>
+                        <input type='url' value={input.background_image} name='background_image' placeholder='Image...' onChange={(e) => handleOnChange(e)} />
                         
                     </div>
+                    <br/>
 
                     <div>
                         <label>Generos: </label>
-                <select onChange={(e) => handleSelect(e)}>
-                    {errors.genres && (<p>{errors.genres}</p>)}
+                <select onChange={(e) => handleSelect(e)} >
                     { allGenres?.map((genre, i) => {
-                            return <option key ={i} value={genre.name} >{genre.name}</option>
-                        })
-                        }
+                        return <option key ={i} value={genre.name}>{genre.name}</option>
+                    })
+                }
                 </select> 
-                <li>{input.genres?.map(e => e + ',')}</li>
+                <br/>
+                {input.genres.map((e,i) =>
+                            <span key={i}> {e}
+                                <button className={style.eliminar} onClick={() =>handleDeleteGenre(e)}>x</button>
+                                </span>
+                                )}
+            
+
+                {errors.genres && (<p className={style.error}>{errors.genres}</p>)}
+                
                     </div>
+                    <br/>
 
                     <div>
                         <label>Plataforms: </label>
-                        <select onChange={(e) => handlePlataforms(e)}>
-                        {errors.platforms && (<p>{errors.platforms}</p>)}
+                        <select onChange={(e) => handlePlataforms(e)} >
                         <option value='plat'></option>
                         { newSet.map(e => {
-                        return( <option key={e} value={e}>{e}</option>)})}
-                        </select> 
-                        <li>{input.platforms?.map(e => e + ',')}</li>
+                            return( <option key={e} value={e} >{e}</option>)})}
+                        </select>
+                        <br/>
+                            {input.platforms.map((e,i) =>
+                            <span key={i}> {e}
+                                <button className={style.eliminar} onClick={() => handleDeletePlatform(e)}>x</button>
+                                </span>
+                                )}
+                                {/* <li>{input.platforms?.map(e => e + ',') }</li> */}
+                        
+                        {errors.platforms && (<p className={style.error}>{errors.platforms}</p>)} 
                     </div>
 
-                    <button type="submit" > Crear Videogame </button>
+                    <br/>
+                    <br/>
+                    <button className={style.titulo} type="submit" > Crear Videogame </button>
                     </form>
                 </div>
+                <br/>
+                <br/>
+                <Link to='/home'><button  className={style.boton}>Volver</button></Link>
+                <br/>
             </div>
         )
 }

@@ -1,4 +1,4 @@
-import { FILTER_BY_CREATE, FILTER_BY_GENRES, GET_GENRES, GET_VIDEOGAMES, GET_VIDEOGAMES_BY_NAME, ORDER_BY_NAME, ORDER_BY_RATING, POST_VIDEOGAME, VIDEOGAME_BY_ID } from "../actions";
+import {  FILTER_BY_CREATE, FILTER_BY_GENRES, GET_GENRES, GET_VIDEOGAMES, GET_VIDEOGAMES_BY_NAME, LIMPIAR_DETALLE, ORDER_BY_NAME, ORDER_BY_RATING, POST_VIDEOGAME, VIDEOGAME_BY_ID } from "../actions";
 
 const initialState={
     allVideogames:[],
@@ -77,7 +77,7 @@ function rootReducer (state=initialState, action) {
                             return{
                                 ...state,
                                 genres:action.payload,
-                            }
+                        }
 
                         case FILTER_BY_GENRES:
                             const fullVideogames = state.allVideogames;
@@ -86,18 +86,24 @@ function rootReducer (state=initialState, action) {
                             return{
                                 ...state,
                                 videogames: genreFilter
-                            };
+                        };
 
-                            case VIDEOGAME_BY_ID:
-                                return {
-                                    ...state,
-                                    datails:action.payload
-                                }
+                        case VIDEOGAME_BY_ID:
+                            return {
+                                ...state,
+                                datails:action.payload
+                        }
 
-                                case POST_VIDEOGAME:
-                                    return {
-                                        ...state,
-                                    }
+                        case POST_VIDEOGAME:
+                            return {
+                                ...state,
+                        }
+
+                        case LIMPIAR_DETALLE:
+                            return{
+                                ...state,
+                                details: []
+                            }
 
             default:
                 return state;

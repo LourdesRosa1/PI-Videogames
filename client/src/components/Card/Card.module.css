@@ -5,6 +5,7 @@
     position: relative;
     -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.38); 
     box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.38);
+    background-color: #b5179e;
     display: flex;
     align-content: center;
     margin-bottom: 50px;
@@ -18,7 +19,7 @@
 .name{
     font-family: 'Open Sans', sans-serif;
     text-transform: uppercase;
-    color: #010101;
+    color: #480ca8;
     margin-bottom: auto;
     
 }
@@ -46,6 +47,6 @@
     font-family: 'Open Sans', sans-serif;
     margin: unset;
     padding: 0px;
-    color: #000000;
+    color: #3a0ca3;
     text-transform: uppercase;
 }

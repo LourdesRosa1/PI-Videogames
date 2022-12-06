@@ -1,0 +1,59 @@
+.create{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    
+}
+.content {
+    padding: 2rem;
+    border-radius: 30px;
+    background: #797178;
+    box-shadow: 15px 15px 30px #3c3c3cbb, -15px -15px 30px #3c3c3cbb;
+    width: fit-content;
+    background-color: #39a7c9;
+}
+.content img{
+    width: 180px;
+    height: 180px;
+}
+.titulo{
+    color: #b5179e;
+}
+.titulo:hover {
+    background: #88d491;
+}
+
+ .fondo{
+   height: 1100px;
+    background: url(https://img.freepik.com/vector-gratis/fondo-neon_23-2149088314.jpg?w=1380&t=st=1669906169~exp=1669906769~hmac=efce69f7c26b403f421e652c01adde32c7c3cde04e5a842aabb99bab47f1ef79) no-repeat center center fixed ;
+    background-size:cover ;
+  }
+
+  .error{
+    font-weight:bold;
+    color: red;
+  }
+
+
+.boton{
+    background-color: rgba(140, 36, 150, 0.698);
+    border-color: rgba(163, 41, 219, 0.254);
+    border-radius: 10%;
+    margin-left: 6px;
+    margin-right: 6px;
+    color: rgba(0, 0, 0, 0.822);
+    font-size: large;
+    font-family:sans-serif;
+    font-style:unset
+  }
+
+  .boton:hover {
+    background: #88d491;
+}
+
+.eliminar{
+  margin-left: 8px;
+  border-radius: 5px;
+  color: black;
+  font-weight:bold;
+}

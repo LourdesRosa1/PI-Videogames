@@ -9,7 +9,6 @@ export default function NavBar() {
                 <NavLink exact to='/'>LandingPage</NavLink>
                 <NavLink to='/home'>Home</NavLink>
                 <NavLink to='/videogame'>VideogameCreate</NavLink>
-            
         </nav>
     )
 }
