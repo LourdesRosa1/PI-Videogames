@@ -166,7 +166,7 @@ export default function VideogameCreate () {
 
                     <div>
                         <label>Fecha de lanzamiento: </label>
-                        <input type='text' value={input.released} name='released' placeholder='Released...' required onChange={(e) => handleOnChange(e)} />
+                        <input type='text' value={input.released} name='released' placeholder='dd/mm/aaaa' required onChange={(e) => handleOnChange(e)} />
                         {errors.released && (<p className={style.error}>{errors.released}</p>)}
                     </div>
                     <br/>

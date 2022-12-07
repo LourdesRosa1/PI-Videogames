@@ -4,6 +4,7 @@ import style from './Paginado.module.css'
 
 export default function LandingPage({videogamePerPege,currentPage, allVideogames, paginado }) {
     const pageNumbers=[];
+    let activeLi;
     for(let i=1;i<= Math.ceil(allVideogames/videogamePerPege); i++) {
         pageNumbers.push(i)
     }
@@ -11,8 +12,14 @@ export default function LandingPage({videogamePerPege,currentPage, allVideogames
         paginado(1)
     }
 
+    if(currentPage) {
+        activeLi= 'active'
+    } else {
+        activeLi=''
+    }
+
     return(
-        <div>
+        <div >
             <button className={style.boton} onClick={() => paginado(currentPage === 1 ? pageNumbers.length : currentPage - 1)}>«</button>
             {
                 pageNumbers && pageNumbers.map(number => (
@@ -22,6 +29,7 @@ export default function LandingPage({videogamePerPege,currentPage, allVideogames
                     onClick={() => paginado(number)}>{number}</button>
                 ))
             }
+
             <button className={style.boton}  onClick={() => paginado(currentPage === 0 ? currentPage : currentPage + 1)}>»</button>
         </div>
     )
