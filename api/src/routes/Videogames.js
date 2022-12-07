@@ -57,33 +57,5 @@ let objInfo={ name,description,background_image: background_image ? background_i
     }
 })
 
-router.put('/videogame/:id',async (req, res) => {
-    try{
-        const {id}=req.params;
-        const{name,description}=req.body
-        await db.Videogame.update(
-            {name, description},
-            {where: {
-                id
-            }})
-            res.status(200).send('usuario actualizado')
-        } catch {
-            res.status(400).send('no se pudo');
-        }
-})
-
-router.delete('/videogame/:id',async (req, res) => {
-    try{
-        const {id}=req.params;
-        await db.Videogame.destroy(
-            {where: {
-                id
-            }})
-            res.status(200).send('usuario borrado')
-        } catch {
-            res.status(400).send('no se pudo');
-        }
-})
-
 
 module.exports = router;
