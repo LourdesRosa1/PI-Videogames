@@ -7,7 +7,7 @@ const { Videogame, Genre } = require('../db.js');
 const allVideogames= async () => {
     let games=[];
     for(let i=1; i < 6; i++){
-        const videogame= await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}`)
+        const videogame= await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${i}` )
         const video=videogame.data.results;
         const vgames= video.map(e => {
             games.push({
@@ -25,6 +25,7 @@ const allVideogames= async () => {
         })
     } return games
 }
+
 
 const dbInfo= async () => {
         const resultsDb= await Videogame.findAll({
