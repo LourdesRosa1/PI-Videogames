@@ -2,9 +2,10 @@
 const { expect } = require('chai');
 const session = require('supertest-session');
 const app = require('../../src/app.js');
-const { Videogame, conn } = require('../../src/db.js');
+const { conn,Videogame } = require('../../src/db.js');
 
 const agent = session(app);
+
 const videogame = {
   name: 'Super Mario Bros',
 };
@@ -21,4 +22,31 @@ describe('Videogame routes', () => {
       agent.get('/videogames').expect(200)
     );
   });
+
+
+});
+
+
+describe('Videogame routes', () => {
+
+  describe('GET /videogames', () => {
+    it('responde con 200', async () => { 
+      await agent
+      .get('/videogames')
+      .expect(200)
+      // .expect((res) => {
+      //   expect(res.query.name === 'Portal');
+      // })
+    });
+
+    it('responde con 400', () => { 
+      return agent
+      .get('/videogames')
+      .expect(400)
+    })
+    
+    // it('responde con 400', () => agent.get('/videogames').expect(400));
+
+  });
+
 });

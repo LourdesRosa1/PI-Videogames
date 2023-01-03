@@ -74,9 +74,8 @@ router.post('/videogames', async (req,res) => {
 
 let objInfo={ name,description,background_image: background_image ? background_image : 'https://img.freepik.com/vector-gratis/consola-juegos-letras-letrero-neon-fondo-ladrillo_1262-11854.jpg?w=740&t=st=1669172056~exp=1669172656~hmac=e28863c9e27bdca4a8f20846ad1f6797d2186e727160fc3c0d2e98242bbe8dc8',rating,released,platforms}
     try{
-        
             const videogameCreate= await Videogame.create(objInfo);
-       let videogameGenre= await Genre.findAll({
+            let videogameGenre= await Genre.findAll({
             where: {name: genres}
         });
         await videogameCreate.addGenre(videogameGenre)
@@ -85,6 +84,7 @@ let objInfo={ name,description,background_image: background_image ? background_i
         res.status(400).json(error.message);
     }
 })
+
 
 
 module.exports = router;
