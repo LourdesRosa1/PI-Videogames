@@ -88,10 +88,11 @@ export default function VideogameCreate () {
             }))
         }
 
-        function handleDeleteGenre(e){
+        function handleDeleteGenre(e,d){
+            e.preventDefault();
             setInput({
                 ...input,
-                genres: input.genres.filter(gen => gen !== e)
+                genres: input.genres.filter(gen => gen !== d)
             });
         };
 
@@ -106,10 +107,11 @@ export default function VideogameCreate () {
                 platforms: [...input.platforms, e.target.value],
             }))
         }
-        function handleDeletePlatform(e){
+        function handleDeletePlatform(e,c){
+            e.preventDefault();
             setInput({
                 ...input,
-                platforms: input.platforms.filter(plat => plat !== e)
+                platforms: input.platforms.filter(plat => plat !== c)
             });
         };
 
@@ -119,9 +121,6 @@ export default function VideogameCreate () {
 
         const handleOnSubmit= (e) => {
             e.preventDefault();
-            // if(input.name === games.filter(name => name.name === input.name)){
-            //     alert('El nombre ya existe')
-            // }
             dispatch(postVideogame(input))
                 setInput(({
                     name:'',
@@ -132,7 +131,7 @@ export default function VideogameCreate () {
                     platforms:[],
                     genres:[]
                 }));
-                alert('Videogamr Creado')
+                alert('Videogame Creado')
                 history.push('/home')
         }
 
@@ -187,14 +186,12 @@ export default function VideogameCreate () {
                 }
                 </select> 
                 <br/>
-                {input.genres.map((e,i) =>
-                            <span key={i}> {e}
-                                <button className={style.eliminar} onClick={() =>handleDeleteGenre(e)}>x</button>
+                {input.genres.map((c,i) =>
+                            <span key={i}> {c}
+                                <button className={style.eliminar} onClick={(e) =>handleDeleteGenre(e, c)}>x</button>
                                 </span>
                                 )}
-            
-
-                {errors.genres && (<p className={style.error}>{errors.genres}</p>)}
+                                {errors.genres && (<p className={style.error}>{errors.genres}</p>)}
                 
                     </div>
                     <br/>
@@ -207,9 +204,9 @@ export default function VideogameCreate () {
                             return( <option key={e} value={e} >{e}</option>)})}
                         </select>
                         <br/>
-                            {input.platforms.map((e,i) =>
-                            <span key={i}> {e}
-                                <button className={style.eliminar} onClick={() => handleDeletePlatform(e)}>x</button>
+                            {input.platforms.map((c,i) =>
+                            <span key={i}> {c}
+                                <button className={style.eliminar} onClick={(e) => handleDeletePlatform(e, c)}>x</button>
                                 </span>
                                 )}
                                 {/* <li>{input.platforms?.map(e => e + ',') }</li> */}

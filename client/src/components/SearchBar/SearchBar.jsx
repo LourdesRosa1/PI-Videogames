@@ -22,18 +22,14 @@ export default function SearchBar() {
         e.preventDefault();
         // dispatch(getVieogameByName(name));
         // setName('')
-
-        const nombre=games.filter((el) => el.name.toLowerCase().includes(name.toLowerCase()))
         
-        if(name && (!nombre || nombre.length === 0)){
-            alert('No existe el juego ingresado!')
-        }
-        else if(!name){
-            alert('¡Para buscar ingrese un nombre!')
-        }
-        else{
+        if(name){
             dispatch(getVieogameByName(name))
             setName('')
+        }
+        
+        else{
+            alert('No se encontro videogame');
         }
     }
 

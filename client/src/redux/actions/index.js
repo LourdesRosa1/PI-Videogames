@@ -6,17 +6,10 @@ export const ORDER_BY_NAME= 'ORDER_BY_NAME';
 export const ORDER_BY_RATING= 'ORDER_BY_RATING';
 export const FILTER_BY_GENRES='FILTER_BY_GENRES';
 export const FILTER_BY_CREATE= 'FILTER_BY_CREATE';
+export const LIMPIAR_DETALLE='LIMPIAR_DETALLE'
 export const VIDEOGAME_BY_ID='VIDEOGAME_BY_ID';
 export const POST_VIDEOGAME='POST_VIDEOGAME';
 
-
-export const LIMPIAR_DETALLE='LIMPIAR_DETALLE'
-//LIMPIAR DETALLE 
-export function limpiarDetalle () {
-    return {
-        type:LIMPIAR_DETALLE
-    }
-    }
 
 // funcion con la que traigo los videogames
 export function getVideogames () {
@@ -35,8 +28,8 @@ export function getVideogames () {
 
 //funcion para obtener vieogmes por nombre
 export function getVieogameByName (name) {
-return async function (dispatch) {
-    try{
+    return async function (dispatch) {
+        try{
         const json= await axios.get(`http://localhost:3001/videogames?name=${name}`);
         return dispatch ({
             type:GET_VIDEOGAMES_BY_NAME,
@@ -124,3 +117,12 @@ export function orderByRating (payload) {
         payload
     }
 }
+
+
+
+//LIMPIAR DETALLE 
+export function limpiarDetalle () {
+    return {
+        type:LIMPIAR_DETALLE
+    }
+    }
